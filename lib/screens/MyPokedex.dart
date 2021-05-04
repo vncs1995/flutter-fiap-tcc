@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pokedex/repositories/pokemon_repository.dart';
-import 'package:pokedex/screens/PokemonDetails.dart';
 
-class HomeScreen extends StatelessWidget {
+class MyPokedexScreen extends StatelessWidget {
+  final box = GetStorage();
+  
+
   @override
   Widget build(context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Encontre pokemons!")
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Minha pokedex"),
       ),
-      body: Container(
+            body: Container(
         child: FutureBuilder(
-        future: PokemonRepository().getPokemons(),
+        future: PokemonRepository().getPokedex(box.read("captured")),
         builder: (context, snapshot){
           if(snapshot.data == null) {
             return Container(
@@ -29,9 +33,6 @@ class HomeScreen extends StatelessWidget {
                   backgroundColor: Colors.white
                 ),
                 title: Text(snapshot.data[index].name),
-                onTap: () {
-                  Navigator.push(context, new MaterialPageRoute(builder: (context) => PokemonDetailsScreen(pokemon: snapshot.data[index],)));
-                },
               );
             },
           );
