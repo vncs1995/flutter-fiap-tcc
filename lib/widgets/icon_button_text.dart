@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class IconButtonWithText extends StatelessWidget {
-  IconButtonWithText({this.onPressed});
+  IconButtonWithText({this.onPressed, this.title});
   final VoidCallback onPressed;
+  final String title;
   @override
   Widget build(context) {
     return Column(
@@ -16,11 +17,11 @@ class IconButtonWithText extends StatelessWidget {
             height: 200,
             width: 200,
           ),
-          tooltip: 'Capturar!',
+          tooltip: this.title,
           onPressed: onPressed,
         ),
         Text(
-          'Capturar!',
+          this.title,
           style: TextStyle(fontSize: 20),
         )
       ],

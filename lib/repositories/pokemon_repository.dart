@@ -9,7 +9,7 @@ class PokemonRepository {
       var pokemonDetails = response.data;
        return Pokemon(
           name: pokemonDetails["name"],
-          url: pokemonDetails["url"],
+          url: url,
           image: pokemonDetails["sprites"]["front_default"],
           hqImage: pokemonDetails["sprites"]["other"]["official-artwork"]
               ["front_default"]);

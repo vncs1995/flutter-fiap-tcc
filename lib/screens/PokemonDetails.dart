@@ -13,9 +13,47 @@ class PokemonDetailsScreen extends StatefulWidget {
 
 class _PokemonDetailsState extends State<PokemonDetailsScreen> {
   final box = GetStorage();
+  bool isOnPokedex = false;
+
+  _capturePokemon() {
+    List<String> capturedPokemonsURL = [];
+
+    if(box.read('captured') != null) {
+      capturedPokemonsURL = box.read('captured');
+    }
+
+    capturedPokemonsURL.add(widget.pokemon.url);
+    box.write('captured', capturedPokemonsURL);
+    setState(() {
+      isOnPokedex = true;
+    });
+  }
+
+  _releasePokemon() {
+    List<String> pokemonsToRelease = box.read('captured');
+
+    pokemonsToRelease.removeAt(pokemonsToRelease.indexOf(widget.pokemon.url));
+    box.write('captured', pokemonsToRelease);
+    setState(() {
+      isOnPokedex = false;
+    });
+  }
+
+  bool _isPokemonOnPokedex() {
+    List<String> capturedPokemonsURL = box.read('captured');
+    if(capturedPokemonsURL != null && capturedPokemonsURL.indexOf(widget.pokemon.url) != -1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(context) {
+    setState(() {
+      isOnPokedex = _isPokemonOnPokedex();
+    });
+
     return new Scaffold(
         appBar: AppBar(
           title: Text(
@@ -32,12 +70,8 @@ class _PokemonDetailsState extends State<PokemonDetailsScreen> {
                   alignment: Alignment.center,
                 ),
                 IconButtonWithText(
-                  onPressed: () {
-                    List<String> capturedPokemonsURL = box.read('captured');
-
-                    capturedPokemonsURL.add(widget.pokemon.url);
-                    box.write('captured', capturedPokemonsURL);
-                  },
+                  onPressed: () {isOnPokedex ? _releasePokemon() : _capturePokemon();},
+                  title: isOnPokedex ? "Soltar este pokemon" : "Capturar!!",
                 )
               ],
             ),

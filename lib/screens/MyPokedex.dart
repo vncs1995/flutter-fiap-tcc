@@ -4,7 +4,6 @@ import 'package:pokedex/repositories/pokemon_repository.dart';
 
 class MyPokedexScreen extends StatelessWidget {
   final box = GetStorage();
-  
 
   @override
   Widget build(context) {
